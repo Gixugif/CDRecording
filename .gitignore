@@ -1,5 +1,5 @@
 *.csv
-./CDR
-./Daily
-./log
-./Reports
+./CDR/
+./Daily/
+./log/
+./Reports/
