@@ -61,7 +61,7 @@ class Call_Detail_Directory:
 		script += ' CurrentYear=$(date -d "' + start_diff  + 'day ago" "+%B")\r'
 		script += """ cd "/mnt/share/COMMON FILES/STAFF FOLDERS/Jeffrey Zic/CDRHourly"
 		
-		curl -H 'content-type: application/json' "192.168.0.199/gui/cdr/cdr?__auth_user=admin&__auth_pass=c^c\$g%o)d&sortby=end_timestamp&sortorder=asc&since=RANGE&rows=500000&between=June+01%2C+2015&between=November+01%2C+2015&show_outbound=0" > "/mnt/share/COMMON FILES/STAFF FOLDERS/Jeffrey Zic/CDRHourly_development/CDR/calls"
+		curl -H 'content-type: application/json' "192.168.0.199/gui/cdr/cdr?__auth_user=" + user + "&__auth_pass=" + pass + "&sortby=end_timestamp&sortorder=asc&since=RANGE&rows=500000&between=June+01%2C+2015&between=November+01%2C+2015&show_outbound=0 > "/mnt/share/COMMON FILES/STAFF FOLDERS/Jeffrey Zic/CDRHourly_development/CDR/calls"
 		"""
 		
 		fname = (date.today() - timedelta(23)).strftime("%b%d%y")
