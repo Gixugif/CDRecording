@@ -17,7 +17,7 @@ This project aims to provide more useful counts and features so that business ca
 
 Installation
 --------------
-
+No Need to install. The script will run as is.
 
 API Reference
 --------------
