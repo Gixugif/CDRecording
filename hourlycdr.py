@@ -55,8 +55,8 @@ class Call_Detail_Directory:
     def get_calls(
         self,
         fname,
-        start_date=date.today() - timedelta(1),
-        end_date=date.today() - timedelta(1),
+        start_date=date.today() - timedelta(3),
+        end_date=date.today() - timedelta(2),
         ):
         """Gets call metadata from file.
 
@@ -78,17 +78,18 @@ class Call_Detail_Directory:
         count_calls("Sep0215")
         """
 
+        username = raw_input("Username: ")
+        passwords = raw_input("Password: ")
+
         start_diff = '3'
-		script = """
-        NOW=$(date -d "{diff} day ago" +"%b%d%y")
-		CurrentMonth=$(date -d "{diff} day ago" +"%B")
-		CurrentDay=$(date -d "{diff} day ago" +"%-d")
-		CurrentYear=$(date -d "{diff} day ago" +"%Y")
+        script = """
+        NOW=$(date -d '{diff} day ago' +'%b%d%y')
+		CurrentMonth=$(date -d '{diff} day ago' +'%B')
+		CurrentDay=$(date -d '{diff} day ago' +'%-d')
+		CurrentYear=$(date -d '{diff} day ago' +'%Y')
 
-		cd "/mnt/share/COMMON FILES/STAFF FOLDERS/Jeffrey Zic/CDRHourly"
-
-		curl -H 'content-type: application/json' 0"192.168.0.199/gui/cdr/cdr?__auth_user=%s&__auth_pass=%s&sortby=end_timestamp&sortorder=asc&since=RANGE&rows=500000&between={first_date}&between={last_date}&show_outbound=0 > "./log/calls"
-        """.format(diff=start_diff,first_date=start_date,last_date=end_date)
+		curl -H 'content-type: application/json' '192.168.0.199/gui/cdr/cdr?__auth_user={user}&__auth_pass={password}&sortby=end_timestamp&sortorder=asc&since=RANGE&rows=500000&between={first_date}&between={last_date}&show_outbound=0' > './log/calls'
+        """.format(diff=start_diff,first_date=start_date,last_date=end_date,user=username,password=passwords)
 
         fname = (date.today() - timedelta(23)).strftime('%b%d%y')
         newCall = True
@@ -96,7 +97,7 @@ class Call_Detail_Directory:
 
         subprocess.call(['sh', '-c', script])
 
-        with open('./CDR/calls', 'r') as f:
+        with open('./log/calls', 'r') as f:
 
             for line in f:
 
@@ -354,7 +355,7 @@ class Call_Counter:
 
         return self.hourly_averages
 
-    def avg_calls_per_day(calls):
+    def avg_calls_per_day(self, calls):
         """Finds the average amount of calls for each day of the week
 
         Takes a call directory and finds the average number of calls divided by day of the week.
@@ -429,13 +430,13 @@ class Call_Counter:
 
 def main():
     test = Call_Detail_Directory()
-    test.get_calls('test')
+    test.get_calls("test")
     count = Call_Counter()
     count.count_days_of_week(test)
     count.avg_calls_per_hour(test)
     count.avg_calls_per_day(test)
     count.daily_avg_calls_output(count.hourly_averages)
-    count.hourly_avg_calls_output(count.hourly_averages)
+    #count.hourly_avg_calls_output(count.hourly_averages)
 
 
 if __name__ == '__main__':
