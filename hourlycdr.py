@@ -54,7 +54,7 @@ class Call_Detail_Directory:
     def get_calls(
         self,
         fname,
-        start_date=date.today() - timedelta(0),
+        start_date=date.today() - timedelta(30),
         end_date=date.today() - timedelta(0),
         ):
         """Gets call metadata from file.
@@ -376,7 +376,7 @@ class Call_Counter:
 
         return self.daily_averages
 
-    def avg_calls_output(averages):
+    def hourly_avg_calls_output(self, averages):
         """Outputs the average calls into a file
 
         :param averages: list of average call divided by day of the week and hour
@@ -410,24 +410,22 @@ class Call_Counter:
                 daily.append(self.daily_averages[day])
             avgs_writer.writerow(daily)
 
-    def total_calls_output(self, totals):
-        """Outputs the total calls divided by hour into a file
-
-        :param totals: list of total calls divided by hour
-        :type totals: int[][]
-        """
+    def total_calls_output(self):
+        """Outputs the total calls for each hour of each day into a .csv"""
 
         with open('totals.csv', 'wb') as csvfile:
-            avgs_writer = csv.writer(csvfile, dialect='excel')
-            avgs_writer.writerow([''] + self.weekdays)
+            totals_writer = csv.writer(csvfile, dialect='excel')
+            totals_writer.writerow([''] + self.weekdays)
 
-            for day in self.weekdays:
-                for hour in range(24):
-                    avgs_writer.writerow([hour + ': '
-                            + [hourly_averages[day][hour]]])
+            for hour in range(24):
+                daily_hours = []
+                for day in self.weekdays:
+                    daily_hours.append(self.hourly_counts[day][hour])
+                hour_str = str(hour) + ': '
+                totals_writer.writerow([hour_str] + daily_hours)
 
-        with open('averages.csv', 'w', newline='') as csvfile:
-            avgs_writer = csv.writer(csvfile, dialect='excel')
+        #with open('averages.csv', 'w', newline='') as csvfile:
+        #   avgs_writer = csv.writer(csvfile, dialect='excel')
 
 
 def main():
@@ -438,7 +436,8 @@ def main():
     count.avg_calls_per_hour(test)
     count.avg_calls_per_day(test)
     count.daily_avg_calls_output(count.hourly_averages)
-    #count.hourly_avg_calls_output(count.hourly_averages)
+    count.hourly_avg_calls_output(count.hourly_averages)
+    count.total_calls_output()
 
 
 if __name__ == '__main__':
