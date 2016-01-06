@@ -19,7 +19,6 @@ import csv
 import subprocess
 
 # TODO: Move this to a separate file that makes use of API, not in API itself
-
 inbound_group = [
     '"CCR South Front Desk"',
     '"Cindy Business Office"',
@@ -55,8 +54,8 @@ class Call_Detail_Directory:
     def get_calls(
         self,
         fname,
-        start_date=date.today() - timedelta(3),
-        end_date=date.today() - timedelta(2),
+        start_date=date.today() - timedelta(0),
+        end_date=date.today() - timedelta(0),
         ):
         """Gets call metadata from file.
 
@@ -101,12 +100,12 @@ class Call_Detail_Directory:
 
             for line in f:
 
+
+                # In the records, the parameters always appear in the same order so a new call is determined by
+                # seeing when it reaches the last parameter in a call, then the next one will be of a new call.
                 if newCall == True:
                     newCDR = Call_Detail_Record()
                     newCall = False
-
-                    # In the records, the parameters always appear in the same order so a new call is determined by
-                    # seeing when it reaches the last parameter in a call, then the next one will be of a new call.
 
                 words = line.rstrip('\n').partition(':')
                 type = words[0].lstrip(' ').rstrip(' ')
@@ -314,12 +313,12 @@ class Call_Counter:
 
         for call in calls:
 
+            # Filtering out any calls in the inbound group so we don't count any intra-office calls
             if call.direction == '"inbound"' and (call.hangup_cause
-                    == '"NORMAL_CLEARING"' or call.hangup_cause
-                    == '"NONE"') and call.destination_type \
-                != 'internal' and not call.caller_id_name \
-                in inbound_group and call.destination_name \
-                in inbound_group:  # Filtering out any calls in the inbound group so we don't count any intra-office calls
+                    == '"NORMAL_CLEARING"' or call.hangup_cause == '"NONE"'
+                    ) and call.destination_type != 'internal' \
+                and not call.caller_id_name in inbound_group \
+                and call.destination_name in inbound_group:  
 
                 call_date = call.end_timestamp.split('-')
 
