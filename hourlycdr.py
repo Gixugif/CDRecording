@@ -370,7 +370,10 @@ class Call_Counter:
 
         for i in self.weekdays:
             daily_counts = sum(self.hourly_counts[i])
-            self.daily_averages[i] = daily_counts / num_days_of_week[i]
+            if num_days_of_week[i] > 0:
+                self.daily_averages[i] = daily_counts / num_days_of_week[i]
+            else:
+                self.daily_averages[i] = 0
 
         return self.daily_averages
 
