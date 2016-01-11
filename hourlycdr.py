@@ -383,7 +383,7 @@ class Call_Counter:
         :type averages: int[][]
         """
 
-        with open('houlry_averages.csv', 'wb') as csvfile:
+        with open('hourly_averages.csv', 'wb') as csvfile:
             avgs_writer = csv.writer(csvfile, dialect='excel')
             avgs_writer.writerow([''] + self.weekdays)
 
@@ -401,7 +401,7 @@ class Call_Counter:
         :type averages: int[]
         """
 
-        with open('dailiy_averages.csv', 'wb') as csvfile:
+        with open('daily_averages.csv', 'wb') as csvfile:
             avgs_writer = csv.writer(csvfile, dialect='excel')
             avgs_writer.writerow(self.weekdays)
 
@@ -423,10 +423,6 @@ class Call_Counter:
                     daily_hours.append(self.hourly_counts[day][hour])
                 hour_str = str(hour) + ': '
                 totals_writer.writerow([hour_str] + daily_hours)
-
-        #with open('averages.csv', 'w', newline='') as csvfile:
-        #   avgs_writer = csv.writer(csvfile, dialect='excel')
-
 
 def main():
     test = Call_Detail_Directory()
