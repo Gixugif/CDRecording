@@ -17,6 +17,7 @@ import datetime
 import re
 import csv
 import subprocess
+import getpass
 
 # TODO: Move this to a separate file that makes use of API, not in API itself
 inbound_group = [
@@ -87,7 +88,7 @@ class Call_Detail_Directory:
         while state == False:
 
             username = raw_input("Username: ")
-            passwords = raw_input("Password: ")
+            passwords = getpass.getpass("Password: ")
 
             script = """
             NOW=$(date -d '{diff} day ago' +'%b%d%y')
