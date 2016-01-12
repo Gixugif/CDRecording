@@ -77,29 +77,42 @@ class Call_Detail_Directory:
         count_calls("Sep0215")
         """
 
-        username = raw_input("Username: ")
-        passwords = raw_input("Password: ")
-
         start_diff = '3'
-        script = """
-        NOW=$(date -d '{diff} day ago' +'%b%d%y')
-		CurrentMonth=$(date -d '{diff} day ago' +'%B')
-		CurrentDay=$(date -d '{diff} day ago' +'%-d')
-		CurrentYear=$(date -d '{diff} day ago' +'%Y')
-
-		curl -H 'content-type: application/json' '192.168.0.199/gui/cdr/cdr?__auth_user={user}&__auth_pass={password}&sortby=end_timestamp&sortorder=asc&since=RANGE&rows=500000&between={first_date}&between={last_date}&show_outbound=0' > './log/calls'
-        """.format(diff=start_diff,first_date=start_date,last_date=end_date,user=username,password=passwords)
-
+        
         fname = (date.today() - timedelta(23)).strftime('%b%d%y')
         newCall = True
         CDR_List = []
+        state = False
 
-        subprocess.call(['sh', '-c', script])
+        while state == False:
+
+            username = raw_input("Username: ")
+            passwords = raw_input("Password: ")
+
+            script = """
+            NOW=$(date -d '{diff} day ago' +'%b%d%y')
+            CurrentMonth=$(date -d '{diff} day ago' +'%B')
+            CurrentDay=$(date -d '{diff} day ago' +'%-d')
+            CurrentYear=$(date -d '{diff} day ago' +'%Y')
+
+            curl -H 'content-type: application/json' '192.168.0.199/gui/cdr/cdr?__auth_user={user}&__auth_pass={password}&sortby=end_timestamp&sortorder=asc&since=RANGE&rows=500000&between={first_date}&between={last_date}&show_outbound=0' > './log/calls'
+            """.format(diff=start_diff,first_date=start_date,last_date=end_date,user=username,password=passwords)
+
+            subprocess.call(['sh', '-c', script])
+
+            with open('./log/calls', 'r') as f:
+                line = f.readline().strip()
+
+                # Fail state if user info is incorrect
+                if line == '{"error":"FORBIDDEN"}':
+                    print("Incorrect username/password.")
+                    state = False
+                else:
+                    state = True
 
         with open('./log/calls', 'r') as f:
 
             for line in f:
-
 
                 # In the records, the parameters always appear in the same order so a new call is determined by
                 # seeing when it reaches the last parameter in a call, then the next one will be of a new call.
