@@ -39,6 +39,14 @@ inbound_group = [
     ]
 
 
+class DateError(Exception):
+    
+    def __init__(self, value):
+        self.value = value
+   
+    def __str__(self):
+        return repr(self.value)
+
 class Call_Detail_Directory:
 
     """A collection of Call_Detail_Records"""
@@ -438,9 +446,25 @@ class Call_Counter:
                 hour_str = str(hour) + ': '
                 totals_writer.writerow([hour_str] + daily_hours)
 
+def convertDate(date):
+    """Convert date of MM/DD/YYYY format to Date() object"""
+
+    return(datetime.date(int(date[6:]),int(date[:2]),int(date[3:5])))
+
+def getDates():
+    """Ask the user to provide dates in the format:
+        MM/DD/YYYY
+    """
+
+    startDate = raw_input("Please enter starting date (MM/DD/YYYY): " )
+    endDate = raw_input("Pleae enter ending date (MM/DD/YYYY)0: ")
+
+    return [startDate,endDate]
+
 def main():
     test = Call_Detail_Directory()
-    test.get_calls("test")
+    dates = getDates()
+    test.get_calls("test",convertDate(dates[0]),convertDate(dates[1]))
     count = Call_Counter()
     count.count_days_of_week(test)
     count.avg_calls_per_hour(test)
