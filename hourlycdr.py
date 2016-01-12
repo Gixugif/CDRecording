@@ -19,26 +19,6 @@ import csv
 import subprocess
 import getpass
 
-# TODO: Move this to a separate file that makes use of API, not in API itself
-inbound_group = [
-    '"CCR South Front Desk"',
-    '"Cindy Business Office"',
-    '"Tom Back Office"',
-    '"CCR North Front Desk"',
-    '"CCR Workstation"',
-    '"Nan Office Mgr"',
-    '"Library East"',
-    '"Doctor Workstation South"',
-    ' "Pharmacy Counter"',
-    '"Team Leader Station"',
-    '"Library South West"',
-    '"Back Office North"',
-    '"Sandi CCR TL"',
-    '"Chris P Back Office South"',
-    ' "Tx Room West"',
-    ]
-
-
 class DateError(Exception):
     
     def __init__(self, value):
@@ -333,14 +313,16 @@ class Call_Counter:
         :rtype int[]
         """
 
+        monitoredPhones = getMonitoredPhones()
+
         for call in calls:
 
             # Filtering out any calls in the inbound group so we don't count any intra-office calls
             if call.direction == '"inbound"' and (call.hangup_cause
                     == '"NORMAL_CLEARING"' or call.hangup_cause == '"NONE"'
                     ) and call.destination_type != 'internal' \
-                and not call.caller_id_name in inbound_group \
-                and call.destination_name in inbound_group:  
+                and not call.caller_id_name in monitoredPhones \
+                and call.destination_name in monitoredPhones:  
 
                 call_date = call.end_timestamp.split('-')
 
@@ -446,6 +428,17 @@ class Call_Counter:
                 hour_str = str(hour) + ': '
                 totals_writer.writerow([hour_str] + daily_hours)
 
+def getMonitoredPhones():
+
+    monitoredPhones = []
+
+    with open('inbound', 'r') as file:
+
+        for line in file:
+            monitoredPhones.append(line.rstrip('\r\n'))
+    print(monitoredPhones)
+    return monitoredPhones
+
 def convertDate(date):
     """Convert date of MM/DD/YYYY format to Date() object"""
 
@@ -457,7 +450,7 @@ def getDates():
     """
 
     startDate = raw_input("Please enter starting date (MM/DD/YYYY): " )
-    endDate = raw_input("Pleae enter ending date (MM/DD/YYYY)0: ")
+    endDate = raw_input("Pleae enter ending date (MM/DD/YYYY): ")
 
     return [startDate,endDate]
 
