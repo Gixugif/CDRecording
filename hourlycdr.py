@@ -444,18 +444,19 @@ def convertDate(date):
     """Convert date of MM/DD/YYYY format to Date() object
 
     :returns convertedDate
-    :rtype datetime.date()"""
+    :rtype datetime.date()
+    """
 
     convertedDate = datetime.date(int(date[6:]),int(date[:2]),int(date[3:5]))
 
     return convertedDate
 
 def getDates():
-    """Ask the user to provide dates in the format:
-        MM/DD/YYYY
+    """Ask the user to provide dates in the format: MM/DD/YYYY
 
-        :returns dateRange
-        :rtype [datetime.date(),datetime.date()]"""
+    :returns dateRange        
+    :rtype [datetime.date(),datetime.date()]
+    """
 
     startDate = convertDate(raw_input("Please enter starting date (MM/DD/YYYY): " ))
     endDate = convertDate(raw_input("Pleae enter ending date (MM/DD/YYYY): "))
