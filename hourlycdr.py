@@ -365,7 +365,7 @@ class Call_Counter:
         Takes a call directory and finds the average number of calls divided by day of the week by the hour.
 
         :param call_directory: list of call detail records to average
-0        :type call_directory: Call_Detail_Directory
+        :type call_directory: Call_Detail_Directory
         :returns daily_averages
         :rtype dict
         """
@@ -491,11 +491,11 @@ def getDates():
     """Ask the user to provide dates in the format: MM/DD/YYYY
 
     :returns dateRange        
-    :rtype [datetime.date(),datetime.date()]
+    :rtype [String,String]
     """
 
-    startDate = convertDate(raw_input("Please enter starting date (MM/DD/YYYY): " ))
-    endDate = convertDate(raw_input("Pleae enter ending date (MM/DD/YYYY): "))
+    startDate = raw_input("Please enter starting date (MM/DD/YYYY): " )
+    endDate = raw_input("Pleae enter ending date (MM/DD/YYYY): ")
 
     dateRange = [startDate,endDate]
 
@@ -504,17 +504,41 @@ def getDates():
 def formatDate(date):
     """Format a datetime.Date() object to be fed into the script to retrieve
     call detail records from the Cudatel Communications Server
+
+    :return: formatedDate
+    :rtype: String
     """
 
     formatedDate = "{month}+{day}%2C+{year}".format(month=calendar.month_name[date.month],day=date.day,year=date.year)
 
     return formatedDate
 
+def pullCallsDateRange(callData,dates):
+    """Grab call metadata in a date range from CCS
+
+    Currently you cannot grab more than a months worth of data, so in order
+    to get around this limitation this function runs get_calls for each month
+    individually in a date range, and appends the results each time to the file
+
+    :param callData: call detail records to analyze
+    :param dates: range of dates to get calls from
+    :type dates: [String,String]
+    :type callData: Call_Detail_Directory
+    """
+
+    startDate = dates[0]
+    endDate = dates[1]
+
+    while (startDate[:1] <= dates[1][:1]):
+        test.get_calls('test',login[0],login[1],formatDate(startDate),formatDate(endDate))
+        startDate = endDate
+        endDate[:1] = endDate[:1] + 1
+
 def main():
     test = Call_Detail_Directory()
     dates = getDates()
     login = test.getLogin()
-    test.get_calls("test",login[0],login[1],formatDate(dates[0]),formatDate(dates[1]))
+    #test.get_calls("test",login[0],login[1],formatDate(dates[0]),formatDate(dates[1]))
     test.readCalls()
     count = Call_Counter()
     count.count_days_of_week(test)
