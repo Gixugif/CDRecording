@@ -41,12 +41,13 @@ class Call_Detail_Directory:
 
         self.call_detail_directory = []
 
-    def getLogin():
+    def getLogin(self):
         """Get login information for the Cudatel Communications Server
 
         :return: login
         :rtype: [string,string]
         """
+        state = False
 
         while state == False:
 
@@ -57,7 +58,7 @@ class Call_Detail_Directory:
             curl -H 'content-type: application/json' '192.168.0.199/gui/cdr/cdr?__auth_user={user}&__auth_pass={password}&sortby=end_timestamp""" +\
             """&sortorder=asc&show_outbound=0&rows=5&between=January+01+2015&between=January+01+2015&page=1' > './log/calls'
             """
-            script = script.format(diff=start_diff,first_date=start_date,last_date=end_date,user=username,password=passwords)
+            script = script.format(user=username,password=passwords)
             print(script)
 
             subprocess.call(['sh', '-c', script])
@@ -72,7 +73,7 @@ class Call_Detail_Directory:
                 else:
                     state = True
 
-        return [username,password]
+        return [username,passwords]
 
     def get_calls(
         self,
@@ -513,7 +514,7 @@ def formatDate(date):
 
     return formatedDate
 
-def pullCallsDateRange(callData,dates):
+def pullCallsDateRange(callData,dates,login):
     """Grab call metadata in a date range from CCS
 
     Currently you cannot grab more than a months worth of data, so in order
@@ -522,6 +523,7 @@ def pullCallsDateRange(callData,dates):
 
     :param callData: call detail records to analyze
     :param dates: range of dates to get calls from
+    :param login: login info for the CCS
     :type dates: [String,String]
     :type callData: Call_Detail_Directory
     """
@@ -538,6 +540,7 @@ def main():
     test = Call_Detail_Directory()
     dates = getDates()
     login = test.getLogin()
+    pullCallsDateRange(test,dates,login)
     #test.get_calls("test",login[0],login[1],formatDate(dates[0]),formatDate(dates[1]))
     test.readCalls()
     count = Call_Counter()
