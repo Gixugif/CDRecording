@@ -514,6 +514,21 @@ def formatDate(date):
 
     return formatedDate
 
+def formatDate2(date):
+    """Format a String written as "XX/XX/XXXX" to be fed into the script to retrieve
+    call detail records from the Cudatel Communications Server
+
+    :param date: date written as "XX/XX/XXXX"
+    :type date: String
+    :return: formatedDate
+    :rtype: String
+    """
+
+    formatedDate = "{month}+{day}%2C+{year}".format(month=calendar.month_name[date[:1]],day=date[3:4],year=date[6:])
+
+    return formatedDate
+
+
 def pullCallsDateRange(callData,dates,login):
     """Grab call metadata in a date range from CCS
 
@@ -532,7 +547,7 @@ def pullCallsDateRange(callData,dates,login):
     endDate = dates[1]
 
     while (startDate[:1] <= dates[1][:1]):
-        test.get_calls('test',login[0],login[1],formatDate(startDate),formatDate(endDate))
+        callData.get_calls('test',login[0],login[1],formatDate2(startDate),formatDate2(endDate))
         startDate = endDate
         endDate[:1] = endDate[:1] + 1
 
