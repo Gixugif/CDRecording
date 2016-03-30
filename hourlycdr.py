@@ -359,7 +359,7 @@ class Call_Counter:
             end_date = \
                 calls.call_detail_directory[-1].end_timestamp.split(' '
                     )[0]
-        
+
         current_date = start_date.split('-')
         current_date = date(int(current_date[0].lstrip('"')),
                             int(current_date[1]), int(current_date[2]))
@@ -367,8 +367,6 @@ class Call_Counter:
         end_date = date(int(end_date[1:5]), int(end_date[6:8]),
                         int(end_date[9:]))
 
-        print(current_date)
-        print(end_date)
         while current_date <= end_date:
             days_of_week_count[self.weekdays[current_date.weekday()]] += \
                 1
@@ -544,11 +542,11 @@ def getDates():
     """Ask the user to provide dates in the format: MM/DD/YYYY
 
     :returns dateRange        
-    :rtype [String,String]
+    :rtype [datetime.date(),datetime.date()]
     """
 
-    startDate = raw_input("Please enter starting date (MM/DD/YYYY): " )
-    endDate = raw_input("Pleae enter ending date (MM/DD/YYYY): ")
+    startDate = convertDate(raw_input("Please enter starting date (MM/DD/YYYY): " ))
+    endDate = convertDate(raw_input("Please enter ending date (MM/DD/YYYY): "))
 
     dateRange = [startDate,endDate]
 
@@ -644,13 +642,22 @@ def pullCallsDateRange(callData,dates,login):
 def main():
     test = Call_Detail_Directory()
     dates = getDates()
+    
     login = test.getLogin()
-    pullCallsDateRange(test,dates,login)
-    #test.get_calls("test",login[0],login[1],formatDate(dates[0]),formatDate(dates[1]))
-    test.readCalls()
+    count = 1
+    CDR_List = []
+    page = 1
+    while (count != 0):
+        cdr = test.get_calls("test",login,page,formatDate(dates[0]),formatDate(dates[1]))
+        count = cdr[0]
+        CDR_List = CDR_List + cdr[1]
+        page += 1
+        print(count)
+
+    test.call_detail_directory = CDR_List
+
     count = Call_Counter()
     count.count_days_of_week(test)
-    #count.specify_days_of_week()
     count.avg_calls_per_hour(test)
     count.avg_calls_per_day(test)
     count.daily_avg_calls_output(count.hourly_averages)
