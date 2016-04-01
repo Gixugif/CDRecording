@@ -31,6 +31,3 @@ Tests
 
 Contributors
 --------------
-
-License
---------------
