@@ -17,7 +17,11 @@ This project aims to provide more useful counts and features so that business ca
 
 Installation
 --------------
-No Need to install. The script will run as is.
+Download the repository and unzip it to your desired location. 
+
+You must also have Python 3.5 installed: [Download Here](https://www.python.org/downloads/release/python-350/)
+
+On Windows you need Cygwin (or some way to run shell scripts): [Download Cygwin](http://cygwin.com/install.html)
 
 API Reference
 --------------
