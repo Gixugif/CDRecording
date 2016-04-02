@@ -26,8 +26,45 @@ On Windows you need Cygwin (or some way to run shell scripts): [Download Cygwin]
 
 How To Run
 -------------
-You should run 'hourlycdr.py' inside of your shell. This will prompt you for login and date info, and after the program has finished
-running, the files with the call info will appear inside of the folder.
+You should run 'hourlycdr.py' inside of your shell. This will prompt you for l
+
+Ex.
+
+```
+ ./hourlycdr.py
+Please enter starting date (MM/DD/YYYY): 01/01/2016
+Please enter ending date (MM/DD/YYYY): 03/01/2016
+Username: admin
+Password:
+
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 10078  100 10078    0     0   6191      0  0:00:01  0:00:01 --:--:--  6244
+
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 19.7M  100 19.7M    0     0   340k      0  0:00:59  0:00:59 --:--:-- 4747k
+10000
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 19.7M  100 19.7M    0     0   625k      0  0:00:32  0:00:32 --:--:-- 4849k
+10000
+
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 9693k  100 9693k    0     0  1806k      0  0:00:05  0:00:05 --:--:-- 3065k
+4768
+
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    78  100    78    0     0    180      0 --:--:-- --:--:-- --:--:--   181
+0
+```
 
 API Reference
 --------------
