@@ -59,7 +59,6 @@ class Call_Detail_Directory:
             """&sortorder=asc&show_outbound=0&rows=5&between=January+01+2015&between=January+01+2015&page=1' > './log/calls'
             """
             script = script.format(user=username,password=passwords)
-            print(script)
 
             subprocess.call(['sh', '-c', script])
 
@@ -128,7 +127,7 @@ class Call_Detail_Directory:
         """&sortorder=asc&show_outbound=0&rows=500000&between={first_date}&between={last_date}&page={page}' > './log/calls'
         """
         script = script.format(diff=start_diff,first_date=start_date,last_date=end_date,user=username,password=password,page=page)
-        print(script)
+  
         subprocess.call(['sh', '-c', script])
 
         with open('./log/calls', 'r') as f:
