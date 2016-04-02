@@ -26,7 +26,8 @@ On Windows you need Cygwin (or some way to run shell scripts): [Download Cygwin]
 
 How To Run
 -------------
-You should run 'hourlycdr.py' inside of your shell. This will prompt you for l
+You should run 'hourlycdr.py' inside of your shell. This will prompt you for login and date info, and after the program has finished
+running, the files with the call info will appear inside of the folder.
 
 Ex.
 
