@@ -8,6 +8,10 @@
 # Date: 2/2/15
 # Author: Jeffrey Zic
 
+import Call_Detail_Directory
+import Call_Detail_Record
+import Call_Counter
+
 def main():
     test = Call_Detail_Directory()
     dates = getDates()
