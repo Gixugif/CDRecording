@@ -3,3 +3,16 @@
 ./Daily/
 ./log/
 ./Reports/
+*.xlsx
+/CDR/
+/log/
+/Daily/
+/test.txt
+/Makefile
+/make.bat
+/index.rst
+/Reports/
+/_build/
+/_static/
+/_templates/
+/apidoc/
