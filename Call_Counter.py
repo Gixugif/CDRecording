@@ -1,11 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Program: Hourly Call Reports
-# Description: Reports on # of inbound
-# calls from each hour of the day. Then
-# averages the hours for each day
-# separately.
-# Date: 2/2/15
+# Title: Call_Counter
+# Description: Counts the number of
+# calls in a Call Detail Record hourly,
+# daily.
+# Date: 6/9/16
 # Author: Jeffrey Zic
 
 import re
