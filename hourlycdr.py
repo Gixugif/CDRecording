@@ -12,6 +12,7 @@ import re
 import fileinput
 import sys
 from datetime import date, timedelta
+import time
 import os.path
 import datetime
 import re
@@ -128,6 +129,8 @@ class Call_Detail_Directory:
         """
         script = script.format(diff=start_diff,first_date=start_date,last_date=end_date,user=username,password=password,page=page)
   
+        time.sleep(360) # You shouldn't poll the server more than every 5 minutes. We'll make it 6 to be sure
+
         subprocess.call(['sh', '-c', script])
 
         with open('./log/calls', 'r') as f:
