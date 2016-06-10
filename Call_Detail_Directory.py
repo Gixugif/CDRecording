@@ -130,7 +130,7 @@ class Call_Detail_Directory:
                 # In the records, the parameters always appear in the same order so a new call is determined by
                 # seeing when it reaches the last parameter in a call, then the next one will be of a new call.
                 if newCall == True:
-                    newCDR = Call_Detail_Record()
+                    newCDR = Call_Detail_Record.Call_Detail_Record()
                     newCall = False
 
                 words = line.rstrip('\n').partition(':')
@@ -165,7 +165,7 @@ class Call_Detail_Directory:
 
         with open('./log/calls', 'r') as f:
 
-            newCDR = Call_Detail_Record()
+            newCDR = Call_Detail_Record.Call_Detail_Record()
             CDR_List = []
             newCall = False
 
@@ -174,7 +174,7 @@ class Call_Detail_Directory:
                 # In the records, the parameters always appear in the same order so a new call is determined by
                 # seeing when it reaches the last parameter in a call, then the next one will be of a new call.
                 if newCall == True:
-                    newCDR = Call_Detail_Record()
+                    newCDR = Call_Detail_Record.Call_Detail_Record()
                     newCall = False
 
                 words = line.rstrip('\n').partition(':')

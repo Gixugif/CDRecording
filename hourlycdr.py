@@ -13,15 +13,15 @@ import Call_Detail_Record
 import Call_Counter
 
 def main():
-    test = Call_Detail_Directory()
-    dates = getDates()
+    test = Call_Detail_Directory.Call_Detail_Directory()
+    dates = Call_Counter.getDates()
     
     login = test.getLogin()
     count = 1
     CDR_List = []
     page = 1
     while (count != 0):
-        cdr = test.get_calls("test",login,page,formatDate(dates[0]),formatDate(dates[1]))
+        cdr = test.get_calls("test",login,page,Call_Counter.formatDate(dates[0]),Call_Counter.formatDate(dates[1]))
         count = cdr[0]
         CDR_List = CDR_List + cdr[1]
         page += 1
@@ -29,7 +29,7 @@ def main():
 
     test.call_detail_directory = CDR_List
 
-    count = Call_Counter()
+    count = Call_Counter.Call_Counter()
     count.count_days_of_week(test)
     count.avg_calls_per_hour(test)
     count.avg_calls_per_day(test)
