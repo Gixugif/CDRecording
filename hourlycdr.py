@@ -31,6 +31,15 @@ def main():
 
     count = Call_Counter.Call_Counter()
     count.count_days_of_week(test)
+    count.count_calls(test)
+    count.avg_calls_per_hour(test)
+    count.avg_calls_per_day(test)
+    count.daily_avg_calls_output(count.hourly_averages)
+    count.hourly_avg_calls_output(count.hourly_averages)
+    count.total_calls_output()
+
+    count = Call_Counter.Call_Counter()
+    count.count_missed_calls(test)
     count.avg_calls_per_hour(test)
     count.avg_calls_per_day(test)
     count.daily_avg_calls_output(count.hourly_averages)
