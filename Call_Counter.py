@@ -177,9 +177,9 @@ class Call_Counter:
 
         for call in calls:
 
+           # Filtering out any calls in the inbound group so we don't count any intra-office calls
            if call.direction == '"inbound"' and call.destination_type != 'internal' \
                 and not call.caller_id_name in monitoredPhones \
-                # Filtering out any calls in the inbound group so we don't count any intra-office calls
                 and ((call.destination_name in monitoredPhones and call.hangup_cause
                     == '"ORIGINATOR_CANCEL"')
                 or (call.destination_name in monitoredPhones \
