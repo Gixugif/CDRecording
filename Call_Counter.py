@@ -211,7 +211,7 @@ class Call_Counter:
         """
 
         num_days_of_week = self.count_days_of_week(calls)
-        self.count_calls(calls.call_detail_directory)
+
         for i in self.weekdays:
             for hour in range(24):
                 if num_days_of_week[i] != 0:
