@@ -245,14 +245,14 @@ class Call_Counter:
 
         return self.daily_averages
 
-    def hourly_avg_calls_output(self, averages):
+    def hourly_avg_calls_output(self, averages, name=""):
         """Outputs the average calls into a file
 
         :param averages: list of average call divided by day of the week and hour
         :type averages: int[][]
         """
 
-        with open('hourly_averages.csv', 'wb') as csvfile:
+        with open('hourly_averages' + name + '.csv', 'wb') as csvfile:
             avgs_writer = csv.writer(csvfile, dialect='excel')
             avgs_writer.writerow([''] + self.weekdays)
 
@@ -263,14 +263,14 @@ class Call_Counter:
                 hour_str = str(hour) + ': '
                 avgs_writer.writerow([hour_str] + daily_hours)
 
-    def daily_avg_calls_output(self, averages):
+    def daily_avg_calls_output(self, averages, name = ""):
         """Outputs the average calls divided by day into a file
 
         :param averages: list of average call divided by day of the week and hour
         :type averages: int[]
         """
 
-        with open('daily_averages.csv', 'wb') as csvfile:
+        with open('daily_averages' + name + '.csv', 'wb') as csvfile:
             avgs_writer = csv.writer(csvfile, dialect='excel')
             avgs_writer.writerow(self.weekdays)
 
@@ -279,10 +279,10 @@ class Call_Counter:
                 daily.append(self.daily_averages[day])
             avgs_writer.writerow(daily)
 
-    def total_calls_output(self):
+    def total_calls_output(self,name=""):
         """Outputs the total calls for each hour of each day into a .csv"""
 
-        with open('totals.csv', 'wb') as csvfile:
+        with open('totals' + name + '.csv', 'wb') as csvfile:
             totals_writer = csv.writer(csvfile, dialect='excel')
             totals_writer.writerow([''] + self.weekdays)
 
