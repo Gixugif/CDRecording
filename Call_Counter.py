@@ -161,6 +161,44 @@ class Call_Counter:
 
         return self.hourly_counts
 
+    def count_missed_calls(self,calls):
+        """Find the amount of missed calls for each day of the week divided by hour.
+
+        Takes a call directory and finds the average number of calls missed divided by day of the week
+        by the hour.
+
+        :param call_directory: list of call detail records to find missed calls in
+        :tpye call_directory: Call_Detail_Directory
+        :returns missed_calls
+        :rtype: dict
+        """
+
+        monitoredPhones = getMonitoredPhones()
+
+        for call in calls:
+
+           if call.direction == '"inbound"' and call.destination_type != 'internal'
+                and not call.caller_id_name in monitoredPhones \
+                # Filtering out any calls in the inbound group so we don't count any intra-office calls
+                and ((call.destination_name in monitoredPhones and call.hangup_cause
+                    == '"ORIGINATOR_CANCEL"')
+                or (call.destination_name in monitoredPhones
+                    and (re.search('\(VM\)',call.destination_name) not None) and call.hangup_cause
+                    == '"NORMAL_CLEARING"')):
+                # It's a missed call if it goes to a VM or if the caller hangs up
+
+                call_date = call.end_timestamp.split('-')
+
+                day_of_week = date(int(call_date[0].lstrip('"')),
+                                   int(call_date[1]),
+                                   int((call_date[2])[:2])).weekday()
+                self.hourly_counts[self.weekdays[day_of_week]][int((call.end_timestamp.split()[1])[:2])] += \
+                    1
+
+        return self.hourly_counts
+
+
+
     def avg_calls_per_hour(self, calls):
         """Finds the average amount of calls for each day of the week divided by hour.
 
