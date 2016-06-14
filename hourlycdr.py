@@ -42,9 +42,9 @@ def main():
     count.count_missed_calls(test)
     count.avg_calls_per_hour(test)
     count.avg_calls_per_day(test)
-    count.daily_avg_calls_output(count.hourly_averages)
-    count.hourly_avg_calls_output(count.hourly_averages)
-    count.total_calls_output()
+    count.daily_avg_calls_output(count.hourly_averages,'missed')
+    count.hourly_avg_calls_output(count.hourly_averages,'missed')
+    count.total_calls_output('missed')
 
 
 if __name__ == '__main__':
