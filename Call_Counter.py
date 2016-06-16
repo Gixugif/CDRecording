@@ -183,7 +183,7 @@ class Call_Counter:
                 and ((call.destination_name in monitoredPhones and call.hangup_cause
                     == '"ORIGINATOR_CANCEL"')
                 or (call.destination_name in monitoredPhones \
-                    and (re.search('\(VM\)',call.destination_name) not None) and call.hangup_cause
+                    and (re.search('\(VM\)',call.destination_name) != None) and call.hangup_cause
                     == '"NORMAL_CLEARING"')):
                 # It's a missed call if it goes to a VM or if the caller hangs up
 
