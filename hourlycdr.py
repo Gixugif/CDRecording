@@ -31,7 +31,7 @@ def main():
 
     count = Call_Counter.Call_Counter()
     count.count_days_of_week(test)
-    count.count_calls(test)
+    count.count_calls(test.call_detail_directory)
     count.avg_calls_per_hour(test)
     count.avg_calls_per_day(test)
     count.daily_avg_calls_output(count.hourly_averages)
@@ -39,7 +39,7 @@ def main():
     count.total_calls_output()
 
     count = Call_Counter.Call_Counter()
-    count.count_missed_calls(test)
+    count.count_missed_calls(test.call_detail_directory)
     count.avg_calls_per_hour(test)
     count.avg_calls_per_day(test)
     count.daily_avg_calls_output(count.hourly_averages,'missed')
