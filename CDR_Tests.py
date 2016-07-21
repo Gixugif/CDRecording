@@ -4,8 +4,7 @@ class Call_Detail_Directory_Tests(unittest.TestCase):
     
     def getLoginFunctionReturnsString(self):
         actual = type(getLogin())
-        expected = "<class 'list'>"
+        expected = str
         
-        self.assertEqual(actual,expected)
-        
+        self.assertEqual(true,all(isinstance(n,expected) for n in acutal))
         
