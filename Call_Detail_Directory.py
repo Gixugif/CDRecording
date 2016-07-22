@@ -32,7 +32,27 @@ class Call_Detail_Directory:
 
         self.call_detail_directory = []
 
-    def getLogin(self):
+    def usernamePrompt():
+        """Promt the user for a username
+
+        :return: username
+        :rtype: str
+        """
+
+        username = raw_input("Username: ")
+        return username
+
+    def passwordPrompt():
+        """Prompt the user for a password
+
+        :return: password
+        :rtype str
+        """
+
+        password = getpass.getpass("Password: ")
+        return password
+
+    def getLogin(self,un=usernamePrompt(),pwd=passwordPrompt()):
         """Get login information for the Cudatel Communications Server
 
         :return: login
@@ -42,8 +62,8 @@ class Call_Detail_Directory:
 
         while state == False:
 
-            username = raw_input("Username: ")
-            passwords = getpass.getpass("Password: ")
+            username = un
+            passwords = pwd
 
             script = """
             curl -H 'content-type: application/json' '192.168.0.199/gui/cdr/cdr?__auth_user={user}&__auth_pass={password}&sortby=end_timestamp""" +\
