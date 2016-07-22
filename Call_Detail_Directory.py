@@ -52,6 +52,25 @@ class Call_Detail_Directory:
         password = getpass.getpass("Password: ")
         return password
 
+    def queryCudaTel(username,password,fname):
+        """Query the CudaTel for Call Detail Records
+
+        :param username: name of the user
+        :param password: password for the user
+        :type username: str
+        :type password: str
+        :return: response
+        :rtype: file
+        """
+
+        script = """
+        curl -H 'content-type: application/json' '192.168.0.199/gui/cdr/cdr?__auth_user={user}&__auth_pass={password}&sortby=end_timestamp""" +\
+        """&sortorder=asc&show_outbound=0&rows=5&between=January+01+2015&between=January+01+2015&page=1' > '{fileName}'
+        """
+        script = script.format(user=username,password=passwords,fileName=fname)
+
+        subprocess.call(['sh', '-c', script])
+
     def getLogin(self,un=usernamePrompt(),pwd=passwordPrompt()):
         """Get login information for the Cudatel Communications Server
 
@@ -63,15 +82,9 @@ class Call_Detail_Directory:
         while state == False:
 
             username = un
-            passwords = pwd
+            password = pwd
 
-            script = """
-            curl -H 'content-type: application/json' '192.168.0.199/gui/cdr/cdr?__auth_user={user}&__auth_pass={password}&sortby=end_timestamp""" +\
-            """&sortorder=asc&show_outbound=0&rows=5&between=January+01+2015&between=January+01+2015&page=1' > './log/calls'
-            """
-            script = script.format(user=username,password=passwords)
-
-            subprocess.call(['sh', '-c', script])
+            queryCudaTel(username,password,fname)
 
             with open('./log/calls', 'r') as f:
                 line = f.readline().strip()
