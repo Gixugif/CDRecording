@@ -32,14 +32,14 @@ class Call_Detail_Directory:
 
         self.call_detail_directory = []
 
-    def usernamePrompt():
+    def usernamePrompt(inputFunc):
         """Promt the user for a username
 
         :return: username
         :rtype: str
         """
 
-        username = raw_input("Username: ")
+        username = inputFunc
         return username
 
     def passwordPrompt():
@@ -71,7 +71,7 @@ class Call_Detail_Directory:
 
         subprocess.call(['sh', '-c', script])
 
-    def getLogin(self,un=usernamePrompt(),pwd=passwordPrompt()):
+    def getLogin(self,un=usernamePrompt(raw_input("Username: ")),pwd=passwordPrompt(),fname='/log/calls'):
         """Get login information for the Cudatel Communications Server
 
         :return: login
@@ -86,7 +86,7 @@ class Call_Detail_Directory:
 
             queryCudaTel(username,password,fname)
 
-            with open('./log/calls', 'r') as f:
+            with open(fname, 'r') as f:
                 line = f.readline().strip()
 
                 # Fail state if user info is incorrect
